@@ -80,7 +80,7 @@ public class LaunchFrame {
         launch.add(notasAluno);
     }
 
-
+    JTextField matricula = new JTextField("");
     //This JTextfield is all declarated in global scope to be used in the register funcs
     JTextField nome = new JTextField("", 30);
     JTextField email = new JTextField("", 30);
@@ -104,12 +104,22 @@ public class LaunchFrame {
         register.setLayout(null);
         //Labels e Textfields
 
+        JLabel lMatricula = new JLabel();
+        lMatricula.setText("* Matricula: ");
+        lMatricula.setFont(new Font("Arial", Font.BOLD, 30));
+        lMatricula.setBounds(50, 90, 250, 30);
+
+        matricula.setBounds(350, 90, 350, 40);
+        matricula.setFont(new Font("Arial", Font.BOLD, 30));
+        matricula.setBackground(Color.lightGray);
+        matricula.setText("");
+
         JLabel lNome = new JLabel();
         lNome.setText("* Nome: ");
         lNome.setFont(new Font("Arial", Font.BOLD, 30));
-        lNome.setBounds(100, 90, 200, 30);
+        lNome.setBounds(50, 160, 200, 30);
 
-        nome.setBounds(350, 90, 350, 40);
+        nome.setBounds(350, 160, 350, 40);
         nome.setFont(new Font("Arial", Font.BOLD, 30));
         nome.setBackground(Color.lightGray);
         nome.setText("");
@@ -118,9 +128,9 @@ public class LaunchFrame {
         JLabel lEmail = new JLabel();
         lEmail.setText("* Email: ");
         lEmail.setFont(new Font("Arial", Font.BOLD, 30));
-        lEmail.setBounds(100, 160, 200, 30);
+        lEmail.setBounds(50, 230, 200, 30);
 
-        email.setBounds(350, 160, 350, 40);
+        email.setBounds(350, 230, 350, 40);
         email.setFont(new Font("Arial", Font.BOLD, 30));
         email.setBackground(Color.lightGray);
         email.setText("");
@@ -128,11 +138,11 @@ public class LaunchFrame {
         JLabel lCurso = new JLabel();
         lCurso.setText("* Curso: ");
         lCurso.setFont(new Font("Arial", Font.BOLD, 30));
-        lCurso.setBounds(100, 230, 200, 30);
+        lCurso.setBounds(50, 300, 200, 30);
 
 
         cursos = new JComboBox(tdsCursos);
-        cursos.setBounds(350, 230, 350, 40);
+        cursos.setBounds(350, 300, 350, 40);
         cursos.setBackground(Color.lightGray);
         cursos.addActionListener(Action -> {
             alunoExb.setEnabled(true);
@@ -167,9 +177,9 @@ public class LaunchFrame {
         JLabel lTelefone = new JLabel();
         lTelefone.setText("* Telefone: ");
         lTelefone.setFont(new Font("Arial", Font.BOLD, 30));
-        lTelefone.setBounds(100, 300, 200, 30);
+        lTelefone.setBounds(50, 370, 200, 30);
 
-        telefone.setBounds(350, 300, 350, 40);
+        telefone.setBounds(350, 370, 350, 40);
         telefone.setFont(new Font("Arial", Font.BOLD, 30));
         telefone.setBackground(Color.lightGray);
         telefone.setText("");
@@ -180,9 +190,9 @@ public class LaunchFrame {
         JLabel lEndereco = new JLabel();
         lEndereco.setText("* Endereço: ");
         lEndereco.setFont(new Font("Arial", Font.BOLD, 30));
-        lEndereco.setBounds(100, 370, 220, 30);
+        lEndereco.setBounds(50, 440, 220, 30);
 
-        endereco.setBounds(350, 370, 350, 40);
+        endereco.setBounds(350, 440, 350, 40);
         endereco.setFont(new Font("Arial", Font.BOLD, 30));
         endereco.setBackground(Color.lightGray);
         endereco.setText("");
@@ -194,14 +204,14 @@ public class LaunchFrame {
         //Botão
 
 
-        alunoExb.setBounds(500, 440, 200, 70);
+        alunoExb.setBounds(500, 510, 200, 70);
         alunoExb.setBackground(Color.black);
         alunoExb.setForeground(Color.white);
         alunoExb.addActionListener(this::newAluno);
         alunoExb.setEnabled(true);
 
         JButton exitButton = new JButton("Sair");
-        exitButton.setBounds(350, 440, 140, 70);
+        exitButton.setBounds(350, 510, 140, 70);
         exitButton.setBackground(Color.black);
         exitButton.setForeground(Color.white);
         exitButton.addActionListener(Action ->{
@@ -211,6 +221,8 @@ public class LaunchFrame {
 
 
         //Adds
+        register.add(lMatricula);
+        register.add(matricula);
         register.add(cursos);
         register.add(alunoExb);
         register.add(lNome);
@@ -229,24 +241,23 @@ public class LaunchFrame {
     }
 
     /**
-     * Create new ALUNO and adds to TURMA with validation by Student's email and
+     * Create new ALUNO and adds to TURMA with validation by Student's matricula(it was by email) and
      * if the textfields are empty or the email is not valid it will not works
      * @param actionEvent This param show that it will be called by another button.
      */
     public void newAluno(ActionEvent actionEvent) {
-        if ((nome.getText().length() < 3) || (email.getText().length() < 10)
+        if ((matricula.getText().length() < 2 || nome.getText().length() < 3) || (email.getText().length() < 10)
                 || (telefone.getText().length() < 8) || (endereco.getText().length() < 10)) {
-            JOptionPane.showMessageDialog(null, "O nome deve conter" +
-                    " ao menos 3 letras, o email 10, o telefone" +
+            JOptionPane.showMessageDialog(null, "A Matricula deve ser válida \n" +
+                    "O nome deve conter ao menos 3 letras\n o email 10, o telefone" +
                     " 8 e o endereco 10, para que seja válido." +
                     "\n Caso já esteja completo, adicione // ao final", "ERRO!", JOptionPane.INFORMATION_MESSAGE);
         } else {
             int cursoIndex = cursos.getSelectedIndex();
             if (quantidadeAlunos == 0) {
-                System.out.println("Validado");
                 String alunoCurso = tdsCursos[cursoIndex];
                 Alunos novoAluno = new Alunos(
-                        nome.getText(), email.getText(), alunoCurso, telefone.getText(), endereco.getText());
+                        matricula.getText(), nome.getText(), email.getText(), alunoCurso, telefone.getText(), endereco.getText());
                 if (quantidadeAlunos <= 50) {
                     turma[quantidadeAlunos] = novoAluno;
                     quantidadeAlunos += 1;
@@ -262,13 +273,10 @@ public class LaunchFrame {
                     quantidadeAlunos += 1;
                 }
 
-            }else if (!email.getText().toString().equals(turma[quantidadeAlunos - 1].getEmail().toString())) {
-                System.out.println(email.getText());
-                System.out.println(turma[quantidadeAlunos-1].getEmail());
-                System.out.println("Novamente");
+            }else if (!matricula.getText().equals(turma[quantidadeAlunos-1].getMatricula())) {
                 String alunoCurso = tdsCursos[cursoIndex];
                 Alunos novoAluno = new Alunos(
-                        nome.getText(), email.getText(), alunoCurso, telefone.getText(), endereco.getText());
+                        matricula.getText(), nome.getText(), email.getText(), alunoCurso, telefone.getText(), endereco.getText());
                 if (quantidadeAlunos <= 50) {
                     turma[quantidadeAlunos] = novoAluno;
                     quantidadeAlunos += 1;
@@ -309,11 +317,11 @@ public class LaunchFrame {
             showAlunos.setLocationRelativeTo(null);
             showAlunos.setLayout(null);
 
-            JLabel showTextID = new JLabel();
-            showTextID.setText("IDs");
-            showTextID.setFont(new Font("Arial", Font.BOLD, 30));
-            showTextID.setBounds(150, 0, 600, 30);
-            showAlunos.add(showTextID);
+            JLabel showTextMatricula = new JLabel();
+            showTextMatricula.setText("Matriculas");
+            showTextMatricula.setFont(new Font("Arial", Font.BOLD, 30));
+            showTextMatricula.setBounds(50, 0, 600, 30);
+            showAlunos.add(showTextMatricula);
 
             JLabel showTextName = new JLabel();
             showTextName.setText("Nomes");
@@ -345,16 +353,16 @@ public class LaunchFrame {
             showDados.setForeground(Color.white);
             showDados.addActionListener(this::fichaAluno);
             showAlunos.add(showDados);
-            int[] ordenedTurma = ordenarTurma(ordenarList);
+            String[] ordenedTurma = ordenarTurma(ordenarList);
 
             System.out.println(Arrays.toString(ordenedTurma));
             for (int i = 0; i < quantidadeAlunos; i++) {
-                alunoAtual = ordenedTurma[i];
-                JLabel showID = new JLabel();
-                showID.setText(Integer.toString(alunoAtual));
-                showID.setFont(new Font("Arial", Font.BOLD, 30));
-                showID.setBounds(150, (30 + (30 * i)), 600, 30);
-                showAlunos.add(showID);
+                alunoAtual = chosedAluno(ordenedTurma[i]);
+                JLabel showMatricula = new JLabel();
+                showMatricula.setText(turma[alunoAtual].getMatricula());
+                showMatricula.setFont(new Font("Arial", Font.BOLD, 30));
+                showMatricula.setBounds(50, (30 + (30 * i)), 600, 30);
+                showAlunos.add(showMatricula);
 
                 JLabel showName = new JLabel();
                 showName.setText(turma[alunoAtual].getNome());
@@ -398,11 +406,11 @@ public class LaunchFrame {
         fichaAlunos.setLocationRelativeTo(null);
         fichaAlunos.setLayout(null);
 
-        JLabel showAlunoID = new JLabel();
-        showAlunoID.setText("ID: " + Integer.toString(selectedAluno));
-        showAlunoID.setFont(new Font("Arial", Font.BOLD, 30));
-        showAlunoID.setBounds(20, 20, 400, 30);
-        fichaAlunos.add(showAlunoID);
+        JLabel showAlunoMatricula = new JLabel();
+        showAlunoMatricula.setText("Matricula: " + turma[selectedAluno].getMatricula());
+        showAlunoMatricula.setFont(new Font("Arial", Font.BOLD, 30));
+        showAlunoMatricula.setBounds(20, 20, 400, 30);
+        fichaAlunos.add(showAlunoMatricula);
 
         JLabel showAlunoNome = new JLabel();
         showAlunoNome.setText("NOME: " + turma[selectedAluno].getNome());
@@ -473,7 +481,7 @@ public class LaunchFrame {
     JTextField addNotaA = new JTextField();
 
     /**
-     * Method to choose a student to have the grades defined or redefined and it will be chosed by ID
+     * Method to choose a student to have the grades defined or redefined and it will be chosed by MATRICULA(era id)
      * @param actionEvent This param show that it will be called by another button.
      */
     private void addNotas(ActionEvent actionEvent) {
@@ -486,7 +494,7 @@ public class LaunchFrame {
             addNotas.setLayout(null);
 
             JLabel showTextName = new JLabel();
-            showTextName.setText("Insira o ID do aluno");
+            showTextName.setText("Insira a Matricula");
             showTextName.setFont(new Font("Arial", Font.BOLD, 30));
             showTextName.setBounds(100, 50, 400, 30);
             addNotas.add(showTextName);
@@ -516,7 +524,7 @@ public class LaunchFrame {
      */
     private void alunoNota(ActionEvent actionEvent) {
         try {
-            int idAluno = Integer.parseInt(addNotaA.getText());
+            int idAluno = chosedAluno(addNotaA.getText());
             JFrame alunoNota = new JFrame();
             alunoNota.setVisible(true);
             alunoNota.setTitle("Adicionar nota ao aluno");
@@ -612,7 +620,7 @@ public class LaunchFrame {
             addFaltas.setLayout(null);
 
             JLabel showTextName = new JLabel();
-            showTextName.setText("Insira o ID do aluno");
+            showTextName.setText("Insira a Matricula");
             showTextName.setFont(new Font("Arial", Font.BOLD, 30));
             showTextName.setBounds(100, 50, 400, 30);
             addFaltas.add(showTextName);
@@ -631,12 +639,12 @@ public class LaunchFrame {
                 String[] respostas = {"Sim", "Cancelar"};
                 int resposta = JOptionPane.showOptionDialog(null,
                         "Deseja marcar falta para o aluno:" +
-                                "\n" + turma[Integer.parseInt(addFaltaA.getText())].getNome(),
+                                "\n" + turma[chosedAluno(addFaltaA.getText())].getNome(),
                         "Adicionar falta?", JOptionPane.YES_NO_OPTION,
                         JOptionPane.WARNING_MESSAGE, null, respostas, 0);
                 if (resposta == 0) {
-                    turma[Integer.parseInt(addFaltaA.getText())].setFaltas(
-                            turma[Integer.parseInt(addFaltaA.getText())].getFaltas() + 1
+                    turma[chosedAluno(addFaltaA.getText())].setFaltas(
+                            turma[chosedAluno(addFaltaA.getText())].getFaltas() + 1
                     );
                 }
             });
@@ -645,7 +653,7 @@ public class LaunchFrame {
             notaRmv.setBackground(Color.black);
             notaRmv.setForeground(Color.white);
             notaRmv.addActionListener(Action -> {
-                if (turma[Integer.parseInt(addFaltaA.getText())].getFaltas() == 0) {
+                if (turma[chosedAluno(addFaltaA.getText())].getFaltas() == 0) {
                     JOptionPane.showMessageDialog(null, "O aluno não tem faltas!");
                 } else {
                     String[] respostas = {"Sim", "Cancelar"};
@@ -719,42 +727,51 @@ public class LaunchFrame {
      * @param tipo tipo is the kind of order it will return to SHOW STUDENTS
      * @return retorna um array da turma ordenada no tipo pedido ao chamar
      */
-    public int[] ordenarTurma(int tipo) {
-        int[] turmaOrdenada = new int[quantidadeAlunos];
-        for (int i = 0; i < turmaOrdenada.length; i++) {
-            turmaOrdenada[i] = i;
-        }
-        if (tipo == 2) {
+    public String[] ordenarTurma(int tipo) {
+        String[] turmaOrdenada = new String[quantidadeAlunos];
+        Alunos[] turmaFake = turma;
+        Alunos tempValor = turmaFake[0];
+        if (tipo == 1) {
             //Menor -> maior
-            int tempValor = 0;
             for (int i = 0; i < quantidadeAlunos; i++) {
-                for (int j = 0; j < quantidadeAlunos; j++) {
-                    if (calcularMédia(turma[i].getNotas()) > calcularMédia(turma[j].getNotas())) {
-                        tempValor = turmaOrdenada[i];
-                        turmaOrdenada[i] = turmaOrdenada[j];
-                        turmaOrdenada[j] = tempValor;
+                for (int j = 0; j < quantidadeAlunos-1; j++) {
+                    System.out.println("Aqui");
+                    if (calcularMédia(turmaFake[j].getNotas()) > calcularMédia(turmaFake[j+1].getNotas())) {
+                        System.out.println("Aquiee");
+                        tempValor = turmaFake[j];
+                        turmaFake[j] = turmaFake[j+1];
+                        turmaFake[j+1] = tempValor;
                     }
                 }
             }
-        }else if (tipo == 1) {
+        }else if (tipo == 2) {
             //Maior -> menor
-            int tempValor = 0;
             for (int i = 0; i < quantidadeAlunos; i++) {
-                for (int j = 0; j < quantidadeAlunos; j++) {
-                    if (calcularMédia(turma[i].getNotas()) > calcularMédia(turma[j].getNotas())) {
-                        tempValor = turmaOrdenada[i];
-                        turmaOrdenada[i] = turmaOrdenada[j];
-                        turmaOrdenada[j] = tempValor;
+                for (int j = 0; j < quantidadeAlunos-1; j++) {
+                    System.out.println("Aqui");
+                    if (calcularMédia(turmaFake[j].getNotas()) < calcularMédia(turmaFake[j+1].getNotas())) {
+                        System.out.println("Aquiee");
+                        tempValor = turmaFake[j];
+                        turmaFake[j] = turmaFake[j+1];
+                        turmaFake[j+1] = tempValor;
                     }
                 }
             }
-            int[] turmaOrd = new int[quantidadeAlunos];
-            for(int i = 0; i < quantidadeAlunos; i++){
-                turmaOrd[quantidadeAlunos-i-1] = turmaOrdenada[i];
-            }
-            turmaOrdenada = turmaOrd;
-
+        }
+        for(int i = 0; i < quantidadeAlunos; i++){
+            turmaOrdenada[i] = turmaFake[i].getMatricula();
         }
         return turmaOrdenada;
+    }
+
+    public int chosedAluno(String matricula){
+        int alunoID = 0;
+        for(int i = 0; i < quantidadeAlunos; i++){
+            if(matricula.equals(turma[i].getMatricula())) {
+                alunoID = i;
+            }
+        }
+
+        return alunoID;
     }
 }

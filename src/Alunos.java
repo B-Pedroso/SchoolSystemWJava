@@ -1,11 +1,14 @@
 public class Alunos {
-    Alunos(String nome, String email, String curso, String telefone, String endereco){
+    Alunos(String matricula, String nome, String email, String curso, String telefone, String endereco){
+        this.matricula = matricula;
         this.nome = nome;
         this.email = email;
         this.curso = curso;
         this.telefone = telefone;
         this.endereco = endereco;
     }
+
+    private String matricula;
     private String nome;
     private String email;
     private String curso;
@@ -71,4 +74,11 @@ public class Alunos {
         this.notas = notas;
     }
 
+    public String getMatricula() {
+        return matricula;
+    }
+
+    public void setMatricula(String matricula) {
+        this.matricula = matricula;
+    }
 }
